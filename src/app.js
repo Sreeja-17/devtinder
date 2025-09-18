@@ -1,28 +1,57 @@
 const express=require ("express");
+const connectDB= require("./config/database.js");
 const app=express();
-const { adminAuth }=require("./middlewares/auth")
+const User= require("./models/user.js")
 
+app.use(express.json());
 
-app.use("/admin",adminAuth);
-app.get("/admin/getAllData",(req,res)=>{
-    console.log("requesting data");
-    res.send("Data received");
-});
-app.get("/admin/deleteData",(req,res)=>{
-
-    res.send("Deleted data");
-    });
+app.post("/signup",async(req,res)=>{
+    const user=new User(req.body);
     
-app.use("/",(err,req,res,next)=>{
-    if(err){
-        res.status(500).send("Something went wrong please contact customer support");
+    try{
+        await user.save();
+        res.send("Successully saved the data");
+
+    }catch(err){
+        res.status(400).send("Error saving user" + err.message);
+
+    }
+})
+app.get("/user",async(req,res)=>{
+    const userName= req.body.firstName;
+
+    try{
+        const user=await User.find({firstName:userName});
+        if(user.length===0){
+            res.status(400).send("Name not found")
+            
+        }else{
+        res.send(user);
+        }
+    }catch(err){
+        console.log(err);
+        res.status(400).send("email id not found")
     }
 })
 
 
-
-
-
-app.listen(3000,()=>{
+connectDB()
+.then(()=>{
+    console.log("successfully connect to database");
+    app.listen(3000,()=>{
     console.log("server is successfully on port 3000....")
 });
+})
+.catch((err)=>{
+    console.log(err);
+});
+
+
+
+
+
+
+
+
+
+
