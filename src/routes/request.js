@@ -3,6 +3,7 @@ const requestRouter = express.Router();
 const { userAuth } = require("../middlewares/auth")
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
+const sendEmail = require("../utils/sendEmail")
 
 
 requestRouter.post("/request/send/:status/:toUserId",
@@ -48,6 +49,10 @@ requestRouter.post("/request/send/:status/:toUserId",
                 status,
             });
             const data = await connectionRequest.save();
+            sendEmail("sr6129454@gmail.com", "This is test message!")
+                .then(() => console.log("Email Sent"))
+                .catch(err => console.log("Email Failed:", err.message));
+
             res.json({
                 message: "Connection Request Sent Successfully!",
                 data,
@@ -63,9 +68,9 @@ requestRouter.post("/request/review/:status/:requestId",
         try {
             const loggedInUser = req.user;
             const { status, requestId } = req.params;
-            
 
-            const allowedStatus = [ "accepted","rejected"];
+
+            const allowedStatus = ["accepted", "rejected"];
             if (!allowedStatus.includes(status)) {
                 return res.status(400).json({
                     message: "Status not allowed"

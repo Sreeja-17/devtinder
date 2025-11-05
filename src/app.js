@@ -3,6 +3,7 @@ const connectDB = require("./config/database.js");
 const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors")
+require('dotenv').config()
 app.use(cors({
     origin: "http://localhost:5173",
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
@@ -37,8 +38,7 @@ connectDB()
         console.log("Database cannot be connected" + err);
     });
 
-//"emailId":"Sree@gmail.com",
-//"password":"Sree@1711"
+
 
 
 

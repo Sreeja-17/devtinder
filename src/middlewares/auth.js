@@ -1,17 +1,17 @@
-const jwt = require ("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 
 const userAuth = async (req, res, next) => {
   try {
     if (req.method === "OPTIONS") return next();
-    
+
     const { token } = req.cookies;
     if (!token) {
       return res.status(401).send("Please Login!");
     }
 
-    const decodedObj = await jwt.verify(token,"Devtinder@123");
+    const decodedObj = await jwt.verify(token, process.env.JWT_TOKEN);
 
     const { _id } = decodedObj;
 
