@@ -21,7 +21,11 @@ authRouter.post("/signup", async (req, res) => {
         const savedUser=await user.save();
         const token = await user.getJWT();
 
-            res.cookie("token", token);
+            res.cookie("token", token,{
+  httpOnly: true,
+  secure: true, // required if using https
+  sameSite: "None" // required for cross-domain cookies
+});
         res.json({message:"User added successully ",data:savedUser});
 
     } catch (err) {
@@ -43,7 +47,11 @@ authRouter.post("/login", async (req, res) => {
         if (isPasswordValid) {
             const token = await user.getJWT();
 
-            res.cookie("token", token);
+            res.cookie("token", token,{
+  httpOnly: true,
+  secure: true, // required if using https
+  sameSite: "None" // required for cross-domain cookies
+});
             res.json({
                 message: "Logged In Successfully",
                 data:user

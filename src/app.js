@@ -12,6 +12,12 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.options("/", cors());
+app.use(cors({
+  origin: ["https://devtinder-mvhc.onrender.com"], // your frontend URL
+  credentials: true ,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"]
+}));
 
 
 app.use(express.json());
@@ -22,6 +28,7 @@ const authRouter = require('./routes/auth.js');
 const profileRouter = require('./routes/profile.js');
 const requestRouter = require('./routes/request.js');
 const userRouter = require('./routes/user.js');
+
 
 app.use("/", authRouter);
 app.use("/", profileRouter);
