@@ -49,7 +49,7 @@ requestRouter.post("/request/send/:status/:toUserId",
                 status,
             });
             const data = await connectionRequest.save();
-            sendEmail("sr6129454@gmail.com", "This is test message!")
+            sendEmail("This is test message!")
                 .then(() => console.log("Email Sent"))
                 .catch(err => console.log("Email Failed:", err.message));
 
