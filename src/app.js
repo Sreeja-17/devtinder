@@ -22,6 +22,11 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  "/api/payment/webhook",
+  express.raw({ type: "application/json" })
+);
+
 
 
 const authRouter = require('./routes/auth.js');
