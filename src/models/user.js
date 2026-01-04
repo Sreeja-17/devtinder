@@ -74,7 +74,7 @@ firstName:{
   skills:{
     type:[String],
   },
-   isPremium: {
+  isPremium: {
       type: Boolean,
       default: false,
     },
