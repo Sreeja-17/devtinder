@@ -18,14 +18,14 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"]
 }));
-
-
-app.use(express.json());
-app.use(cookieParser());
 app.use(
   "/api/payment/webhook",
   express.raw({ type: "application/json" })
 );
+
+app.use(express.json());
+app.use(cookieParser());
+
 
 
 
@@ -40,7 +40,7 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
-app.use("/", paymentRouter);
+app.use("/api", paymentRouter);
 
 
 connectDB()

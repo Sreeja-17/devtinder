@@ -50,6 +50,7 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
   
 });
 paymentRouter.post("/payment/webhook", async (req, res) => {
+  console.log("Webhook hitted");
   try {
     console.log("Webhook Called");
 
