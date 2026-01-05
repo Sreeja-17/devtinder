@@ -1,27 +1,30 @@
 const express = require("express");
 const connectDB = require("./config/database.js");
 const app = express();
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const cors = require("cors")
-require('dotenv').config()
+require('dotenv').config();
 require("./utils/cronjob.js")
+
+
+
+// 1. Unified CORS Configuration
+const allowedOrigins = ["http://localhost:5173", "https://devtinder-mvhc.onrender.com"];
 app.use(cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    origin: allowedOrigins,
     credentials: true,
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
-app.options("/", cors());
-app.use(cors({
-  origin: ["https://devtinder-mvhc.onrender.com"], // your frontend URL
-  credentials: true ,
-  allowedHeaders: ["Content-Type", "Authorization"],
-  methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"]
-}));
-app.use(
-  "/payment/webhook",
-  express.raw({ type: "application/json" })
+
+// 2. Webhook Route (MUST be before express.json())
+app.post(
+    "/payment/webhook",
+    express.raw({ type: "application/json" }), // Captures raw body for signature check
+    require('./routes/payment.js') // Pointing to your webhook handler
 );
+
+app.options("/", cors());
 
 app.use(express.json());
 app.use(cookieParser());
