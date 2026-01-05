@@ -16,6 +16,7 @@ const paymentRouter = require("./routes/payment.js");
 const allowedOrigins = [
   "http://localhost:5173",
   "https://devtinder-mvhc.onrender.com",
+  "https://devtinder.sreejadev.in"
 ];
 
 app.use(
