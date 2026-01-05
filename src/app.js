@@ -19,7 +19,7 @@ app.use(cors({
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"]
 }));
 app.use(
-  "/api/payment/webhook",
+  "/payment/webhook",
   express.raw({ type: "application/json" })
 );
 
